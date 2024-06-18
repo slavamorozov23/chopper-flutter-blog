@@ -1,0 +1,23 @@
+name: chopperandretrofitflutterblog
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.4.3 <4.0.0'
+
+dependencies:
+  chopper: ^8.0.0
+  chopper_generator: ^8.0.0
+  flutter:
+    sdk: flutter
+  provider: ^6.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  build_runner: ^2.4.11
+
+flutter:
+  uses-material-design: true

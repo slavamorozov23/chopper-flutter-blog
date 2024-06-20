@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:chopper/chopper.dart';
+import 'core/built_value/code_runner.dart';
 import 'model/built_post.dart';
 import 'data/post_api_service.dart';
 import 'single_post_page.dart';
@@ -11,9 +12,22 @@ import 'package:provider/provider.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  void _runCode() {
+    CodeRunner.runCode();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Демонстрация Chopper & BuiltValue Dart/Flutter",
+          style: TextStyle(fontSize: 10),
+        ),
+        leading: IconButton(
+            onPressed: () => _runCode(),
+            icon: const Icon(Icons.play_circle_outline_rounded)),
+      ),
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),

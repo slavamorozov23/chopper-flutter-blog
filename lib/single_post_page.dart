@@ -1,6 +1,9 @@
 import 'dart:convert';
 
-import 'package:chopperandretrofitflutterblog/data/post_api_service.dart';
+import 'package:chopper/chopper.dart';
+import 'package:chopperandretrofitflutterblog/model/built_post.dart';
+
+import 'data/post_api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,11 +18,11 @@ class SinglePostPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Чоппер блог'),
       ),
-      body: FutureBuilder(
+      body: FutureBuilder<Response<BuiltPost>>(
           future: Provider.of<PostApiService>(context).getPost(postId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              final Map post = json.decode(snapshot.data!.bodyString);
+              final post = snapshot.data!.body!;
               return _buildPost(post);
             } else {
               return const Center(
@@ -30,16 +33,16 @@ class SinglePostPage extends StatelessWidget {
     );
   }
 
-  Padding _buildPost(Map post) {
+  Padding _buildPost(BuiltPost post) {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Column(
         children: [
-          Text(post['title']),
+          Text(post.title),
           const SizedBox(
             height: 12,
           ),
-          Text(post['body'])
+          Text(post.body)
         ],
       ),
     );

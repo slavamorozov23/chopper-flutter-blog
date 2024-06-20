@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:built_collection/built_collection.dart';
 import 'package:chopper/chopper.dart';
-import 'package:chopperandretrofitflutterblog/data/post_api_service.dart';
-import 'package:chopperandretrofitflutterblog/single_post_page.dart';
+import 'model/built_post.dart';
+import 'data/post_api_service.dart';
+import 'single_post_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,9 +18,12 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () async {
+          final newPost = BuiltPost((b) => b
+            ..title = 'New Title'
+            ..body = "New Body");
           final response =
               await Provider.of<PostApiService>(context, listen: false)
-                  .postPost({'wow': 'lol'});
+                  .postPost(newPost);
           print(response.body);
         },
       ),
@@ -26,7 +31,7 @@ class HomePage extends StatelessWidget {
   }
 
   FutureBuilder<Response> _buildBody(BuildContext context) {
-    return FutureBuilder<Response>(
+    return FutureBuilder<Response<BuiltList<BuiltPost>>>(
         future: Provider.of<PostApiService>(context, listen: false).getPosts(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
@@ -35,7 +40,8 @@ class HomePage extends StatelessWidget {
                 child: Text(snapshot.error.toString()),
               );
             }
-            final List posts = json.decode(snapshot.data!.bodyString);
+            // final List posts = json.decode(snapshot.data!.bodyString);
+            final posts = snapshot.data!.body!;
             return _buildPosts(context, posts);
           } else {
             return const Center(
@@ -45,17 +51,17 @@ class HomePage extends StatelessWidget {
         });
   }
 
-  ListView _buildPosts(BuildContext context, List posts) {
+  ListView _buildPosts(BuildContext context, BuiltList<BuiltPost> posts) {
     return ListView.builder(
       itemBuilder: (context, index) {
         return Card(
           elevation: 4,
           child: ListTile(
             title: Text(
-              posts[index]['title'],
+              posts[index].title,
             ),
-            subtitle: Text(posts[index]['body']),
-            onTap: () => _navigateToPost(context, posts[index]['id']),
+            subtitle: Text(posts[index].body),
+            onTap: () => _navigateToPost(context, posts[index].id ?? 0),
           ),
         );
       },

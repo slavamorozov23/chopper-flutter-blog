@@ -18,29 +18,29 @@ final class _$PostApiService extends PostApiService {
   final Type definitionType = PostApiService;
 
   @override
-  Future<Response<dynamic>> getPosts() {
+  Future<Response<BuiltList<BuiltPost>>> getPosts() {
     final Uri $url = Uri.parse('/posts');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<BuiltList<BuiltPost>, BuiltPost>($request);
   }
 
   @override
-  Future<Response<dynamic>> getPost(int id) {
+  Future<Response<BuiltPost>> getPost(int id) {
     final Uri $url = Uri.parse('/posts/${id}');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<BuiltPost, BuiltPost>($request);
   }
 
   @override
-  Future<Response<dynamic>> postPost(Map<String, dynamic> body) {
+  Future<Response<Map<String, dynamic>>> postPost(BuiltPost body) {
     final Uri $url = Uri.parse('/posts');
     final $body = body;
     final Request $request = Request(
@@ -49,6 +49,6 @@ final class _$PostApiService extends PostApiService {
       client.baseUrl,
       body: $body,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<Map<String, dynamic>, Map<String, dynamic>>($request);
   }
 }

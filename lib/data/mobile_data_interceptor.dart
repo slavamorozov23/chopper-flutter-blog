@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:chopper/chopper.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:flutter/material.dart';
 
 class LargeFileMobileInterceptor implements Interceptor {
   final Connectivity _connectivity = Connectivity();

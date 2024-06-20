@@ -1,4 +1,5 @@
 import 'package:chopper/chopper.dart';
+import 'package:chopperandretrofitflutterblog/data/mobile_data_interceptor.dart';
 
 part 'post_api_service.chopper.dart';
 
@@ -23,6 +24,13 @@ abstract class PostApiService extends ChopperService {
       baseUrl: Uri.tryParse('https://jsonplaceholder.typicode.com'),
       services: [_$PostApiService()],
       converter: const JsonConverter(),
+      interceptors: [
+        // const HeadersInterceptor(
+        //     {'Cache-Control': 'no-cache'}), // только демонстрация
+        // HttpLoggingInterceptor(),
+        CurlInterceptor(), // очищенный вывод HttpLoggingInterceptor
+        LargeFileMobileInterceptor(),
+      ],
     );
     return _$PostApiService(client);
   }

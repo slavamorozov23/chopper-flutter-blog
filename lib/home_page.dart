@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:chopper/chopper.dart';
 import 'package:chopperandretrofitflutterblog/data/post_api_service.dart';
@@ -14,7 +13,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _buildBody(context),
-      backgroundColor: Colors.black,
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () async {
@@ -32,6 +30,11 @@ class HomePage extends StatelessWidget {
         future: Provider.of<PostApiService>(context, listen: false).getPosts(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text(snapshot.error.toString()),
+              );
+            }
             final List posts = json.decode(snapshot.data!.bodyString);
             return _buildPosts(context, posts);
           } else {
